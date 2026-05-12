@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pimlico Fresh — Breakfast, Brunch & Allpress Coffee</title>
+  <meta name="description" content="Seasonal breakfast & brunch, Allpress espresso, pastries, grab & go, and corporate catering. 86 Wilton Rd, London SW1V 1DN." />
+  <meta name="theme-color" content="#1C1309" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,650&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --cream: #FAF8F3; 
+      --parch: #F0EBE0; 
+      --white: #FFFFFF;
+      --espresso: #1C1309; 
+      --coffee: #3D2210;
+      /* Upgraded to more vibrant, fresh accent colors */
+      --sage: #4ADE80; 
+      --sageD: #16A34A; 
+      --sageL: #DCFCE7;
+      --honey: #FF6B00; 
+      --honeyL: #FFEDD5;
+      --ink: rgba(28,19,9,.85);
+      --border: rgba(28,19,9,.10);
+      --shadow: 0 30px 90px rgba(28,19,9,.12);
+      --r12: 12px; --r18: 18px; --r24: 24px; --r32: 32px; --r48: 48px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+      color: var(--espresso);
+      background:
+        radial-gradient(1200px 700px at 14% -14%, rgba(74, 222, 128, 0.15), transparent 60%),
+        radial-gradient(950px 650px at 92% 12%, rgba(255, 107, 0, 0.1), transparent 55%),
+        linear-gradient(180deg, var(--cream) 0%, #fff 55%, var(--parch) 100%);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Subtle Grain */
+    body::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .03;
+      background: url("https://grainy-gradients.vercel.app/noise.svg");
+      mix-blend-mode: multiply; z-index: 2;
+    }
+
+    /* Typography */
+    .display { font-family: 'Fraunces', Georgia, serif; letter-spacing: -.02em; }
+    .kicker { font-size: 12px; letter-spacing: .25em; text-transform: uppercase; font-weight: 800; color: var(--sageD); }
+    .muted { color: rgba(28,19,9,.65); }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+
+    /* Navigation */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 60; padding: 16px 0; transition: background .3s ease, box-shadow .3s ease, padding .3s ease; }
+    .nav.scrolled { background: rgba(250,248,243,.92); backdrop-filter: blur(16px); box-shadow: 0 1px 0 var(--border); padding: 12px 0; }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+    .mark { width: 48px; height: 48px; flex: 0 0 auto; transition: transform 0.4s cubic-bezier(.34,1.56,.64,1); }
+    .brand:hover .mark { transform: scale(1.08) rotate(5deg); }
+    .word { line-height: 1; }
+    .name { display: block; font-size: 18px; font-weight: 800; }
+    .sub { display: block; margin-top: 4px; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--sageD); }
+
+    .links { display: flex; list-style: none; gap: 28px; margin: 0; padding: 0; }
+    .links a { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; color: var(--espresso); opacity: .6; transition: opacity .2s; }
+    .links a:hover { opacity: 1; color: var(--honey); }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 14px 24px; border-radius: 999px; border: 1.5px solid transparent;
+      cursor: pointer; text-decoration: none; font-size: 13px; font-weight: 800;
+      letter-spacing: .12em; text-transform: uppercase;
+      transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease, background .2s ease;
+    }
+    .btn:active { transform: translateY(1px) scale(.98); }
+    .btn-ink { background: var(--espresso); color: var(--cream); box-shadow: 0 12px 32px rgba(28,19,9,.15); }
+    .btn-ink:hover { background: var(--coffee); transform: translateY(-3px); box-shadow: 0 16px 40px rgba(28,19,9,.25); }
+    .btn-sage { background: var(--sageD); color: #fff; box-shadow: 0 12px 32px rgba(22, 163, 74, .25); }
+    .btn-sage:hover { background: var(--sage); transform: translateY(-3px); box-shadow: 0 16px 40px rgba(74, 222, 128, .4); }
+    .btn-ghost { background: transparent; color: var(--espresso); border-color: var(--border); }
+    .btn-ghost:hover { background: var(--espresso); color: var(--cream); border-color: var(--espresso); transform: translateY(-2px); }
+
+    .mobileOnly { display: none; }
+
+    /* Hero */
+    .hero { padding: 140px 0 80px; }
+    .heroGrid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; }
+    .h1 { font-size: clamp(40px, 5.2vw, 76px); line-height: 1.05; margin: 20px 0 24px; }
+    .h1 em { font-style: italic; color: var(--honey); }
+    .lede { font-size: 18px; max-width: 520px; font-weight: 400; }
+
+    /* Hero Collage */
+    .collage { position: relative; border-radius: var(--r48); overflow: hidden; background: #000; box-shadow: var(--shadow); transform: translateZ(0); }
+    .collageGrid { display: grid; grid-template-columns: 1.1fr .9fr; grid-template-rows: 1fr 1fr; height: min(600px, 75vh); gap: 8px; padding: 8px; }
+    .ph { border-radius: 32px; overflow: hidden; position: relative; }
+    .ph img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.03); transition: transform .8s cubic-bezier(.23,1,.32,1); }
+    .collage:hover .ph img { transform: scale(1.08); }
+    .ph.big { grid-row: 1 / span 2; }
+
+    .float {
+      position: absolute; z-index: 3; border-radius: 24px; padding: 20px 24px;
+      background: rgba(255,255,255,.95); border: 1px solid rgba(255,255,255,.8);
+      box-shadow: 0 24px 60px rgba(28,19,9,.15); backdrop-filter: blur(12px);
+    }
+    .float.dark { background: rgba(28,19,9,.95); color: var(--cream); border-color: rgba(255,255,255,.1); }
+    .float .t { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; font-weight: 800; color: var(--sageD); }
+    .float.dark .t { color: var(--honey); }
+    .float .m { font-family: 'Fraunces', Georgia, serif; font-weight: 800; font-size: 20px; margin-top: 4px; line-height: 1.1; }
+    .float .s { font-size: 13px; margin-top: 4px; color: rgba(28,19,9,.6); }
+    .float.dark .s { color: rgba(250,248,243,.7); }
+    .float.a { left: 24px; bottom: 24px; }
+    .float.b { right: 24px; top: 24px; }
+
+    /* Stats Strip */
+    .strip { margin-top: 48px; background: rgba(250,248,243,.8); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .stripInner { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+    .stripItem { display: flex; align-items: center; gap: 16px; padding: 28px 0; }
+    .stripItem + .stripItem { border-left: 1px solid var(--border); padding-left: 24px; margin-left: 24px; }
+    .ico { width: 48px; height: 48px; border-radius: 50%; background: #fff; display: grid; place-items: center; box-shadow: 0 8px 24px rgba(28,19,9,.08); font-size: 20px; }
+    .lbl { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; font-weight: 800; color: rgba(28,19,9,.6); }
+    .val { font-family: 'Fraunces', Georgia, serif; font-weight: 800; font-size: 17px; margin-top: 4px; }
+    .val a { color: inherit; text-decoration: none; }
+
+    /* Sections */
+    .section { padding: 100px 0; }
+    .head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }
+    .h2 { font-size: clamp(36px, 4vw, 60px); line-height: 1.05; margin: 16px 0; }
+    .p { max-width: 580px; font-size: 18px; }
+
+    /* Menu Filter */
+    .tabs { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+    .tab {
+      padding: 12px 18px; border-radius: 999px; border: 1.5px solid var(--border);
+      background: rgba(255,255,255,.8); font-size: 12px; font-weight: 800;
+      letter-spacing: .14em; text-transform: uppercase; cursor: pointer;
+      transition: all .2s ease;
+    }
+    .tab:hover { background: #fff; transform: translateY(-1px); border-color: var(--sageD); }
+    .tab.active { background: var(--espresso); color: var(--cream); border-color: var(--espresso); }
+
+    /* Menu Grid */
+    .menuGrid { display: grid; grid-template-columns: repeat(12,1fr); grid-auto-rows: 300px; gap: 16px; margin-top: 32px; }
+    .card {
+      border-radius: var(--r32); overflow: hidden; position: relative;
+      border: 1px solid rgba(28,19,9,.06); box-shadow: 0 12px 40px rgba(28,19,9,.05);
+      background: #fff; transition: transform .4s cubic-bezier(.23,1,.32,1), box-shadow .4s ease;
+    }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(28,19,9,.12); }
+    .card img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.02); transition: transform .8s cubic-bezier(.23,1,.32,1); }
+    .card:hover img { transform: scale(1.06); }
+    .ov { position: absolute; inset: 0; background: linear-gradient(to top, rgba(28,19,9,.95), rgba(28,19,9,.2) 60%, transparent); }
+    .body { position: absolute; left: 0; right: 0; bottom: 0; padding: 32px; color: var(--cream); }
+    .tag { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; font-weight: 800; opacity: .9; color: var(--sageL); }
+    .h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 800; font-size: 32px; line-height: 1.1; margin-top: 6px; }
+    .desc { margin-top: 10px; font-size: 15px; opacity: .85; max-width: 40ch; line-height: 1.5; }
+    .price { margin-top: 16px; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: .15em; text-transform: uppercase; font-weight: 800; color: var(--honey); }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--honey); display: inline-block; }
+
+    .span7r2 { grid-column: span 7; grid-row: span 2; }
+    .span5 { grid-column: span 5; }
+    .span4 { grid-column: span 4; }
+
+    .solid { padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; color: #fff; }
+    .bg-sage { background: linear-gradient(135deg, var(--sageD), #0F766E); }
+    .bg-ink { background: linear-gradient(135deg, var(--espresso), #110B05); }
+    .bg-honey { background: linear-gradient(135deg, #FFF7ED, #FFEDD5); color: var(--espresso); border: 1px solid var(--honeyL); }
+    .bg-honey .tag { color: var(--honey); opacity: 1; }
+    .bg-honey .h3 { color: var(--espresso); }
+
+    /* Gallery */
+    .gallery { display: grid; grid-template-columns: 1.2fr 1fr 1fr; grid-auto-rows: 260px; gap: 16px; margin-top: 48px; }
+    .g { border-radius: 24px; overflow: hidden; position: relative; cursor: pointer; border: 1px solid rgba(28,19,9,.05); background: #000; }
+    .g img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.02); transition: transform .8s cubic-bezier(.23,1,.32,1); }
+    .g:hover img { transform: scale(1.06); }
+    .g.big { grid-row: span 2; }
+    .g::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(28,19,9,.4), transparent 50%); opacity: 1; transition: opacity .3s; }
+    .g:hover::after { opacity: 0.5; }
+
+    /* Lightbox */
+    .lb { position: fixed; inset: 0; background: rgba(14,15,16,.9); backdrop-filter: blur(12px); display: none; z-index: 90; padding: 24px; }
+    .lb.on { display: grid; place-items: center; }
+    .lb figure { margin: 0; max-width: min(1100px, 90vw); max-height: 85vh; }
+    .lb img { width: 100%; height: 100%; object-fit: contain; border-radius: 16px; box-shadow: 0 30px 120px rgba(0,0,0,.6); }
+    .lb button { position: fixed; top: 24px; right: 24px; width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.1); color: #fff; font-size: 24px; cursor: pointer; transition: background .2s; }
+    .lb button:hover { background: rgba(255,255,255,.2); }
+
+    /* NEW: Order Modal Container */
+    #orderModal {
+      position: fixed; inset: 0; z-index: 999; display: none;
+      background: rgba(28,19,9,.4); backdrop-filter: blur(8px);
+    }
+    #orderModal.active { display: flex; justify-content: flex-end; }
+    .order-sidebar {
+      width: 100%; max-width: 440px; background: var(--cream); height: 100%;
+      box-shadow: -20px 0 60px rgba(28,19,9,.15); padding: 40px;
+      transform: translateX(100%); transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    #orderModal.active .order-sidebar { transform: translateX(0); }
+    .close-modal { align-self: flex-end; cursor: pointer; font-size: 24px; background: none; border: none; color: var(--espresso); margin-bottom: 24px; }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); }
+    
+    /* Responsive adjustments */
+    @media (max-width: 980px) {
+      .heroGrid { grid-template-columns: 1fr; gap: 0; }
+      .stripInner { grid-template-columns: 1fr 1fr; }
+      .stripItem + .stripItem { border-left: 0; padding-left: 0; margin-left: 0; }
+      .links { display: none; }
+      .mobileOnly { display: inline-flex; }
+      .menuGrid { grid-template-columns: 1fr 1fr; grid-auto-rows: 240px; }
+      .span7r2 { grid-column: span 2; grid-row: span 1; }
+      .span5, .span4 { grid-column: span 1; }
+      .gallery { grid-template-columns: 1fr 1fr; grid-auto-rows: 200px; }
+      .g.big { grid-row: span 1; }
+      .order-sidebar { padding: 24px; }
+    }
+    @media (max-width: 560px) {
+      .stripInner { grid-template-columns: 1fr; }
+      .menuGrid { grid-template-columns: 1fr; }
+      .head { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#home" aria-label="Pimlico Fresh home">
+        <!-- VIBRANT CUSTOM LOGO -->
+        <svg class="mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="48" fill="#FFF7ED"/>
+          <!-- Vibrant Tangerine Cup Base -->
+          <path d="M22 52 C 22 82, 78 82, 78 52 Z" fill="url(#orangeGrad)"/>
+          <!-- Vibrant Green Leaf / Steam -->
+          <path d="M50 48 C 25 45, 25 15, 50 12 C 75 15, 75 45, 50 48 Z" fill="url(#greenGrad)"/>
+          <defs>
+            <linearGradient id="orangeGrad" x1="22" y1="52" x2="78" y2="82" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FF6B00"/>
+              <stop offset="1" stop-color="#FF9900"/>
+            </linearGradient>
+            <linearGradient id="greenGrad" x1="50" y1="12" x2="50" y2="48" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#4ADE80"/>
+              <stop offset="1" stop-color="#16A34A"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="word">
+          <span class="name display">Pimlico Fresh</span>
+          <span class="sub">Victoria · SW1</span>
+        </span>
+      </a>
+
+      <ul class="links">
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#visit">Visit</a></li>
+      </ul>
+
+      <div style="display:flex; gap:12px; align-items:center">
+        <!-- FUNCTIONAL ORDER BUTTON triggers modal instead of dead link -->
+        <button class="btn btn-sage" onclick="openOrderModal()">Order Online</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="home">
+    <div class="wrap heroGrid">
+      <div>
+        <div class="kicker">5 minutes from Victoria • Fresh Daily</div>
+        <h1 class="display h1">Brunch that feels <em>effortless</em> — coffee that tastes deliberate.</h1>
+        <p class="lede muted">
+          Rustic plates, fresh counter bakes, and thick wooden tables. Built for commuters, locals, and anyone allergic to average food.
+        </p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:32px">
+          <a class="btn btn-ink" href="#menu">See today's board</a>
+          <a class="btn btn-ghost" href="#visit">Get directions</a>
+        </div>
+      </div>
+
+      <div class="collage" aria-label="Photo collage">
+        <div class="collageGrid">
+          <div class="ph big">
+            <!-- High-quality Rustic Smashed Avo representing real Pimlico Fresh food -->
+            <img src="https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&w=1400&q=80" alt="Smashed avocado and eggs on rustic wooden table" />
+          </div>
+          <div class="ph">
+            <!-- Perfect Latte Art -->
+            <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=1200&q=80" alt="Latte art coffee cup" />
+          </div>
+          <div class="ph">
+            <!-- Rustic Quiche/Bakes -->
+            <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=1200&q=80" alt="Café counter with fresh food" />
+          </div>
+        </div>
+
+        <div class="float a">
+          <div class="t">The Classic</div>
+          <div class="m">Avo on sourdough</div>
+          <div class="s">Chilli · lime · feta</div>
+        </div>
+
+        <div class="float dark b">
+          <div class="t">Coffee</div>
+          <div class="m">Allpress Espresso</div>
+          <div class="s">Dialled in daily</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strip">
+      <div class="wrap stripInner">
+        <div class="stripItem">
+          <div class="ico">📍</div>
+          <div><div class="lbl">Address</div><div class="val">86 Wilton Rd, SW1V</div></div>
+        </div>
+        <div class="stripItem">
+          <div class="ico">🕐</div>
+          <div><div class="lbl">Weekdays</div><div class="val">07:30 – 19:30</div></div>
+        </div>
+        <div class="stripItem">
+          <div class="ico">📞</div>
+          <div><div class="lbl">Phone</div><div class="val"><a href="tel:+442079320030">020 7932 0030</a></div></div>
+        </div>
+        <div class="stripItem">
+          <div class="ico">🚶</div>
+          <div><div class="lbl">From Victoria</div><div class="val">5 min walk</div></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MENU -->
+  <section class="section" id="menu">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <div class="kicker">What we make</div>
+          <h2 class="display h2">A menu that changes.<br><span style="color:var(--honey); font-style:italic">Taste that doesn't.</span></h2>
+          
+          <div class="tabs" id="tabs">
+            <button class="tab active" data-filter="all">All</button>
+            <button class="tab" data-filter="breakfast">Breakfast & Brunch</button>
+            <button class="tab" data-filter="lunch">Lunch</button>
+            <button class="tab" data-filter="coffee">Coffee</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menuGrid" id="menuGrid">
+        <article class="card span7r2" data-cat="breakfast">
+          <!-- Premium editorial food shot -->
+          <img src="https://images.unsplash.com/photo-1484723091791-c0e7e8c80053?auto=format&fit=crop&w=1600&q=80" alt="Avocado toast and coffee spread" loading="lazy" />
+          <div class="ov"></div>
+          <div class="body">
+            <div class="tag">All‑day kitchen</div>
+            <div class="h3">Breakfast & Brunch</div>
+            <div class="desc">Poached eggs, smashed avo, seasonal salads, hot specials on thick sourdough. Freshly prepped on the board.</div>
+            <div class="price"><span class="dot"></span> Board changes daily</div>
+          </div>
+        </article>
+
+        <article class="card span5" data-cat="coffee">
+          <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=1400&q=85" alt="Barista pulling espresso" loading="lazy" />
+          <div class="ov"></div>
+          <div class="body">
+            <div class="tag">Coffee</div>
+            <div class="h3">Allpress Espresso</div>
+            <div class="desc">Flat white, cappuccino, cortado — dialled in daily.</div>
+            <div class="price"><span class="dot"></span> Alternative milks available</div>
+          </div>
+        </article>
+
+        <article class="card span5" data-cat="lunch">
+          <!-- Rustic Lunch Salad Bowl -->
+          <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1400&q=80" alt="Healthy rustic lunch bowl" loading="lazy" />
+          <div class="ov"></div>
+          <div class="body">
+            <div class="tag">Lunch</div>
+            <div class="h3">Daily Salads & Quiche</div>
+            <div class="desc">Generous portions, vibrant ingredients, handmade daily.</div>
+            <div class="price"><span class="dot"></span> Eat in or takeaway</div>
+          </div>
+        </article>
+
+        <article class="card span4" data-cat="breakfast">
+          <div class="solid bg-honey">
+            <div>
+              <div class="tag">Dietary</div>
+              <div class="h3">Vegan & GF</div>
+              <p class="muted" style="margin:16px 0 0; font-size:15px; font-weight:500;">
+                Clearly labelled, genuinely tasty — never an afterthought on our chalkboards.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="card span4" data-cat="all">
+          <div class="solid bg-sage">
+            <div>
+              <div class="tag" style="color:var(--sageL)">Fast lane</div>
+              <div class="h3">Click & Collect</div>
+              <p style="margin:16px 0 0; font-size:15px; opacity:.9">Order from Victoria Station. Pick up without the queue.</p>
+            </div>
+            <!-- Triggers functional modal -->
+            <button class="btn btn-ink" onclick="openOrderModal()" style="align-self:flex-start">Order Online →</button>
+          </div>
+        </article>
+
+        <article class="card span4" data-cat="all">
+          <div class="solid bg-ink">
+            <div>
+              <div class="tag" style="color:var(--honey)">Corporate</div>
+              <div class="h3">Office catering</div>
+              <p style="margin:16px 0 0; font-size:15px; opacity:.85">Breakfast trays, lunch spreads, and coffee packages for SW1 offices.</p>
+            </div>
+            <a class="btn btn-ghost" href="mailto:hello@pimlicofresh.co.uk" style="align-self:flex-start; border-color:rgba(255,255,255,.2); color:#fff;">Email Us →</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="section" id="gallery" style="background:rgba(240,235,224,.4)">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <div class="kicker">The Vibe</div>
+          <h2 class="display h2">Communal tables & good coffee.</h2>
+        </div>
+      </div>
+
+      <div class="gallery">
+        <div class="g big" data-full="https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&w=2200&q=85">
+          <img src="https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&w=1200&q=80" alt="Avocado toast on wood table" loading="lazy" />
+        </div>
+        <div class="g" data-full="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=2200&q=85">
+          <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&q=80" alt="Bustling cafe interior" loading="lazy" />
+        </div>
+        <div class="g" data-full="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?auto=format&fit=crop&w=2200&q=85">
+          <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?auto=format&fit=crop&w=1200&q=80" alt="Barista working" loading="lazy" />
+        </div>
+        <div class="g" data-full="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=2200&q=85">
+          <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80" alt="Breakfast spread" loading="lazy" />
+        </div>
+        <div class="g" data-full="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=2200&q=85">
+          <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=1200&q=80" alt="Cafe counter" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div class="lb" id="lb" aria-hidden="true">
+    <button type="button" id="lbClose" aria-label="Close">×</button>
+    <figure><img id="lbImg" alt="" /></figure>
+  </div>
+
+  <!-- INTERACTIVE ORDER MODAL -->
+  <div id="orderModal">
+    <div class="order-sidebar">
+      <button class="close-modal" onclick="closeOrderModal()">×</button>
+      <div class="kicker" style="margin-bottom: 8px;">Fast Lane</div>
+      <h2 class="display" style="font-size: 32px; margin: 0 0 24px 0;">Click & Collect</h2>
+      
+      <p class="muted" style="margin-bottom: 32px;">Order ahead and skip the queue. Ready in 10 minutes.</p>
+
+      <div style="flex-grow: 1;">
+        <h3 style="font-size: 16px; border-bottom: 2px solid var(--espresso); padding-bottom: 8px; margin-bottom: 16px;">Popular</h3>
+        
+        <div class="cart-item">
+          <div>
+            <div style="font-weight: 700;">Flat White (Allpress)</div>
+            <div style="font-size: 12px; color: var(--sageD);">Oat milk available</div>
+          </div>
+          <button class="btn btn-ghost" style="padding: 8px 16px; font-size: 11px;">+ £3.60</button>
+        </div>
+
+        <div class="cart-item">
+          <div>
+            <div style="font-weight: 700;">Smashed Avo on Sourdough</div>
+            <div style="font-size: 12px; color: var(--sageD);">Chilli, lime, feta</div>
+          </div>
+          <button class="btn btn-ghost" style="padding: 8px 16px; font-size: 11px;">+ £9.50</button>
+        </div>
+
+        <div class="cart-item" style="border-bottom: none;">
+          <div>
+            <div style="font-weight: 700;">Daily Quiche</div>
+            <div style="font-size: 12px; color: var(--sageD);">Served with side salad</div>
+          </div>
+          <button class="btn btn-ghost" style="padding: 8px 16px; font-size: 11px;">+ £8.50</button>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid var(--border); padding-top: 24px; margin-top: 24px;">
+        <!-- Simulated checkout button -->
+        <button class="btn btn-ink" style="width: 100%; justify-content: space-between; font-size: 15px;" onclick="alert('This would link directly to your Square/StoreKit Point of Sale system!')">
+          <span>Go to Checkout</span>
+          <span>→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Nav Scroll
+    const nav = document.getElementById('nav');
+    addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 20), { passive:true });
+
+    // Menu Tabs Filtering
+    const tabs = document.getElementById('tabs');
+    const cards = Array.from(document.querySelectorAll('#menuGrid .card'));
+    if(tabs) {
+      tabs.addEventListener('click', (e) => {
+        const btn = e.target.closest('.tab');
+        if(!btn) return;
+        
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const filter = btn.dataset.filter;
+        cards.forEach(card => {
+          const cat = card.dataset.cat || 'all';
+          card.style.display = (filter === 'all' || cat === filter) ? '' : 'none';
+        });
+      });
+    }
+
+    // Lightbox Logic
+    const lb = document.getElementById('lb');
+    const lbImg = document.getElementById('lbImg');
+    const closeLb = () => { lb.classList.remove('on'); lb.setAttribute('aria-hidden','true'); lbImg.src = ''; };
+    
+    document.querySelectorAll('.g').forEach(el => {
+      el.addEventListener('click', () => {
+        lbImg.src = el.dataset.full;
+        lb.classList.add('on');
+        lb.setAttribute('aria-hidden','false');
+      });
+    });
+    
+    if(document.getElementById('lbClose')) document.getElementById('lbClose').addEventListener('click', closeLb);
+    lb.addEventListener('click', (e) => { if(e.target === lb) closeLb(); });
+    addEventListener('keydown', (e) => { if(e.key === 'Escape') closeLb(); });
+
+    // Interactive Order Modal Logic
+    const orderModal = document.getElementById('orderModal');
+    function openOrderModal() {
+      orderModal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+    function closeOrderModal() {
+      orderModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    orderModal.addEventListener('click', (e) => {
+      if(e.target === orderModal) closeOrderModal();
+    });
+  </script>
+</body>
+</html>
